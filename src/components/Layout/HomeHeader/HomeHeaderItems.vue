@@ -90,14 +90,29 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Swiper, { SwiperOptions } from 'swiper';
+import {
+  Swiper as SwiperClass,
+  Pagination,
+  SwiperOptions,
+  EffectFade,
+  Parallax,
+  A11y
+} from 'swiper/core';
 import { mapActions } from 'vuex';
 import { BaseItemDto, ImageType } from '@jellyfin/client-axios';
+import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter';
 import htmlHelper from '~/mixins/htmlHelper';
 import imageHelper from '~/mixins/imageHelper';
 import itemHelper from '~/mixins/itemHelper';
 
+import 'swiper/swiper-bundle.css';
+
+SwiperClass.use([Pagination, EffectFade, Parallax, A11y]);
+
+const { Swiper, SwiperSlide } = getAwesomeSwiper(SwiperClass);
+
 export default Vue.extend({
+  components: { Swiper, SwiperSlide },
   mixins: [htmlHelper, imageHelper, itemHelper],
   props: {
     items: {
@@ -124,8 +139,9 @@ export default Vue.extend({
           fadeEffect: {
             crossFade: true
           },
-          keyboard: true,
-          a11y: true
+          a11y: {
+            enabled: true
+          }
         };
       }
     }
